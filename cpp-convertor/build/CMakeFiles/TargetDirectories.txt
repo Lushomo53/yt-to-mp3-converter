@@ -1,0 +1,3 @@
+C:/Users/Lushomo Lungo/Documents/yt-to-mp3-converter/cpp-convertor/build/CMakeFiles/converter.dir
+C:/Users/Lushomo Lungo/Documents/yt-to-mp3-converter/cpp-convertor/build/CMakeFiles/edit_cache.dir
+C:/Users/Lushomo Lungo/Documents/yt-to-mp3-converter/cpp-convertor/build/CMakeFiles/rebuild_cache.dir
