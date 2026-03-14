@@ -33,7 +33,7 @@ public class ConversionController {
 
         if (url == null || url.trim().isEmpty()) {
             return ResponseEntity.badRequest().body(Map.of(
-                "sucess", false,
+                "success", false,
                 "error", "URL required"
             ));
         }
@@ -44,7 +44,7 @@ public class ConversionController {
             return ResponseEntity.ok(Map.of(
                 "success", true,
                 "filename", filename,
-                "downloadURL", "/api/download/" + filename
+                "downloadUrl", "/api/downloads/" + filename
             ));
         } catch (Exception e) {
             return ResponseEntity.status(500).body(Map.of(
