@@ -13,6 +13,7 @@ YouTubeDownloader::YouTubeDownloader() {}
 YouTubeDownloader::~YouTubeDownloader() {}
 
 bool YouTubeDownloader::fetchVideo(const std::string& youtubeURL, const std::string& outputFile) {
+    //extracts audio from yt video using a yt-dlp command
     std::string command = "yt-dlp --quiet -o \"" + outputFile + "\" --extract-audio --audio-format mp3 " + youtubeURL;
     int result = system(command.c_str());
     
@@ -26,6 +27,7 @@ bool YouTubeDownloader::fetchVideo(const std::string& youtubeURL, const std::str
     }
 }
 
+//methods that used curl
 std::string YouTubeDownloader::findVideoUrlInHtml(const std::string& html) {
     std::cout << "Searching for video url in html of length" << html.length() << std::endl;
     return "";

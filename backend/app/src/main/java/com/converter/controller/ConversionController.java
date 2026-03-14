@@ -1,3 +1,9 @@
+/**
+ * Controller that handles requests from front end, mainly conversion and download
+ * works with springboot to handle REST API calls (JSON)
+ * through the conversion service it handles conversions of yt urls to mp3 files
+ */
+
 package com.converter.controller;
 
 import java.io.File;
@@ -20,18 +26,18 @@ import org.springframework.web.bind.annotation.RestController;
 import com.converter.service.ConversionService;
 
 @RestController
-@RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:5173")
+@RequestMapping("/api") //root 
+@CrossOrigin(origins = "http://localhost:5173") //connection to react port
 public class ConversionController {
     @Autowired
     private ConversionService service;
 
     @PostMapping("/convert")
     public ResponseEntity<?> convert(@RequestBody Map<String, String> request) {
-        String url = request.get("url");
+        String url = request.get("url"); //parse json and retrieve url string
         System.out.println("URL Recieved URL: " + url);
 
-        if (url == null || url.trim().isEmpty()) {
+        if (url == null || url.trim().isEmpty()) { //ensure thr url is not an empty string
             return ResponseEntity.badRequest().body(Map.of(
                 "success", false,
                 "error", "URL required"
@@ -39,14 +45,17 @@ public class ConversionController {
         }
 
         try {
+            //handle url conversion
             String filename = service.convertVideo(url);
 
+            //return sucess status to frontend
             return ResponseEntity.ok(Map.of(
                 "success", true,
                 "filename", filename,
                 "downloadUrl", "/api/downloads/" + filename
             ));
         } catch (Exception e) {
+            //report error
             return ResponseEntity.status(500).body(Map.of(
                 "success", false,
                 "error", e.getMessage()
@@ -54,9 +63,11 @@ public class ConversionController {
         }
     }
 
+    //downloads mp3 file to local storage
     @GetMapping("/downloads/{filename}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String filename) {
         try {
+            //fetch mp3 file from downloads cache
             File file = new File("downloads/" + filename);
 
             System.out.println("Requested file: " + filename);
@@ -67,6 +78,7 @@ public class ConversionController {
                 return ResponseEntity.notFound().build();
             }
 
+            //execute download
             Resource resource = new FileSystemResource(file);
 
             HttpHeaders headers = new HttpHeaders();
